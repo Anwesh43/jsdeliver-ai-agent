@@ -8,7 +8,7 @@ class JSDelivrService:
     def __init__(self):
         self.client = BaseHTTPClient(os.environ["JSDELIVR_BASE_URL"])
 
-    def getPackageStats(self):
+    def getTopPackagesStats(self):
         try:
             packages = self.client.getCall("stats/packages")
             responseKeys = ["type", "name", "hits"]
@@ -48,7 +48,7 @@ class JSDelivrService:
         except Exception as e:
             return self.client.handleError(e)
 
-    def getPackageStats(self, type: str, name: str, version : str):
+    def getPackageStats(self, type: str, name: str):
         try:
             packageStats = self.client.getCall(f"stats/packages/{type}/{name}")
             return packageStats
