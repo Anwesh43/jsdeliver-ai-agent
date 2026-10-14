@@ -24,14 +24,14 @@ class JSDelivrService:
 
     def getPackageVersions(self, type: str, name : str):
         try:
-            packageDetails = self.client.getCall(f"{type}/{name}")
+            packageDetails = self.client.getCall(f"packages/{type}/{name}")
             versionResults = []
             if "versions" in packageDetails:
                 versionObjects = packageDetails["versions"]
                 for versionObject in versionObjects:
-                    version = versionObject["versions"]
+                    version = versionObject["version"]
                     versionParts = version.split("-")
-                    if len(versionParts) == 1 and len(versionParts.split(".")) == 3:
+                    if len(versionParts) == 1 and len(versionParts[0].split(".")) == 3:
                         versionResults.append(versionParts[0])
             return versionResults
         except Exception as e:
@@ -39,7 +39,7 @@ class JSDelivrService:
 
     def getPackageVersionFileDetails(self, type : str, name : str, version : str):
         try:
-            packageVersions = self.client.getCall(f"{type}/{name}@{version}")
+            packageVersions = self.client.getCall(f"packages/{type}/{name}@{version}")
             result = {}
             if "default" in packageVersions and "files" in packageVersions:
                 result["entryFile"] = packageVersions["default"]
